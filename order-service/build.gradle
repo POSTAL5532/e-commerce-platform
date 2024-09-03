@@ -26,12 +26,51 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation "org.springframework.boot:spring-boot-configuration-processor"
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation 'commons-io:commons-io:2.13.0'
+
 	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+
 	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen:6.1.5.Final'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2023.0.3"
+	}
+}
+
+tasks.named("bootJar") {
+	launchScript{
+		enabled = true
+	}
+	enabled = true
+	archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+ext {
+	// Directory for generated main Java sources
+	generatedMainJava = "${buildDir}/generated"
+}
+
+sourceSets {
+	// Add generated sources directory.
+	main.java.srcDir generatedMainJava
+}
+
+compileJava	{
+	options.compilerArgs += ['-AaddGenerationDate=true']
+	options.annotationProcessorGeneratedSourcesDirectory = file(generatedMainJava)
 }

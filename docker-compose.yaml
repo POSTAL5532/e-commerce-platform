@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  ecommerce_db:
+    container_name: ecommerce_db
+    image: postgres:14.1
+    environment:
+      POSTGRES_DB: ecommerce_db_stub
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - .local/database/users/:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d
