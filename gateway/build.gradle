@@ -39,14 +39,14 @@ dependencyManagement {
 	}
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
 tasks.named("bootJar") {
 	launchScript{
 		enabled = true
 	}
 	enabled = true
 	archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
 }

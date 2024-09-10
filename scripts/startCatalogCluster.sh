@@ -1,7 +1,7 @@
 #!/bin/bash
 
 COMMAND="java -jar ../catalog-service/build/libs/catalog-service.jar"
-PORTS=(8040 8051 8062)
+PORTS=(8040 8041 8042)
 
 for PORT in "${PORTS[@]}"; do
     $COMMAND --server.port=$PORT &

@@ -1,25 +1,29 @@
-# Read Me First
-The following was discovered as part of building this project:
+# Training project "E-Commerce platform"
+Project for 'Spring Cloud' infrastructure discover.
 
-* The original package name 'com.ecommerce.discovery-service' is invalid and this project uses 'com.ecommerce.discovery_service' instead.
+## Spring Cloud tools:
+- Eureka discovery service
+- Gateway
+- Configuration server
 
-# Getting Started
+## Environment requirements
+- JDK 17
+- Docker
+- Docker Compose
 
-### Reference Documentation
-For further reference, please consider the following sections:
+## Setup and Run project
+- `gradlew clean build` - build project
+- `docker compose up -d ecommerce_db` - up database
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/3.3.3/gradle-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.3.3/gradle-plugin/packaging-oci-image.html)
-* [Eureka Server](https://docs.spring.io/spring-cloud-netflix/docs/current/reference/html/#spring-cloud-eureka-server)
+### Up infrastructure applications
+- `java -jar discovery/build/libs/discovery.jar` - run discovery server. Use `--server.port=<PORT>` for port specifying, default is `9090`.
+- `java -jar config-server/build/libs/config.jar` - run config server. Use `--server.port=<PORT>` for port specifying, default is `9190`.
+- `java -jar gateway/build/libs/gateway.jar` - run gateway. Use `--server.port=<PORT>` for port specifying, default is `8080`.
+- `java -jar gateway/build/libs/notification-service.jar` - run notification service. Use `--server.port=<PORT>` for port specifying, default is `8050`.
 
-### Guides
-The following guides illustrate how to use some features concretely:
-
-* [Service Registration and Discovery with Eureka and Spring Cloud](https://spring.io/guides/gs/service-registration-and-discovery/)
-
-### Additional Links
-These additional references should also help you:
-
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
-
+### Up services
+Use `.sh` for Linux or `.bat` for Windows.
+- `./scripts/startCatalogCluster.sh` - run three catalog services (ports - `8040`, `8041`, `8042`).
+- `./scripts/startInventoryCluster.sh` - run three inventory services (ports - `8030`, `8031`, `8032`).
+- `./scripts/startOrderCluster.sh` - run three order services (ports - `8030`, `8031`, `8032`).
+- `./scripts/startUserCluster.sh` - run three users services (ports - `8010`, `8011`, `8012`).
