@@ -6,3 +6,5 @@ include 'order-service'
 include 'inventory-service'
 include 'user-service'
 include 'notification-service'
+include 'config-server'
+

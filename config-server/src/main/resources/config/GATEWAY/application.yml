@@ -1,0 +1,39 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/order-service/**
+          filters:
+            - StripPrefix=1
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - StripPrefix=1
+        - id: catalog-service
+          uri: lb://catalog-service
+          predicates:
+            - Path=/catalog-service/**
+          filters:
+            - StripPrefix=1
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path=/inventory-service/**
+          filters:
+            - StripPrefix=1
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:9090/eureka
+  instance:
+    preferIpAddress: true
+logging:
+  level:
+    root: INFO
+    sql: INFO
+    web: INFO

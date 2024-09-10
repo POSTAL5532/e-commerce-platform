@@ -1,7 +1,5 @@
-server:
-  port: 8080
 spring:
   application:
-    name: GATEWAY
+    name: notification-service
   config:
     import: optional:configserver:http://127.0.0.1:9190

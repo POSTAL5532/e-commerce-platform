@@ -1,0 +1,23 @@
+server:
+  port: 9190
+spring:
+  application:
+    name: CONFIG
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: classpath:/config/{application}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:9090/eureka
+  instance:
+    preferIpAddress: true
+logging:
+  level:
+    root: INFO
+    sql: INFO
+    web: INFO

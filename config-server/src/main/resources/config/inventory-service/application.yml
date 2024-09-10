@@ -1,0 +1,28 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: none
+    show-sql: 'true'
+    open-in-view: false
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/ecommerce_inventory
+    username: postgres
+    password: root
+  sql:
+    init:
+      platform: postgres
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:9090/eureka
+
+logging:
+  level:
+    root: INFO
+    sql: INFO
+    web: INFO
