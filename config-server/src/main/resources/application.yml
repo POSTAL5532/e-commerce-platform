@@ -2,14 +2,14 @@ server:
   port: 9190
 spring:
   application:
-    name: CONFIG
+    name: config
   profiles:
     active: native
   cloud:
     config:
       server:
         native:
-          searchLocations: classpath:/config/{application}
+          searchLocations: classpath:/config
 eureka:
   client:
     serviceUrl:

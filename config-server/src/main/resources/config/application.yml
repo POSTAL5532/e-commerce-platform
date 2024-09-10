@@ -8,10 +8,6 @@ spring:
       ddl-auto: none
     show-sql: 'true'
     open-in-view: false
-  datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/ecommerce_orders
-    username: postgres
-    password: root
   sql:
     init:
       platform: postgres
@@ -20,6 +16,8 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://127.0.0.1:9090/eureka
+  instance:
+    preferIpAddress: true
 
 logging:
   level:
