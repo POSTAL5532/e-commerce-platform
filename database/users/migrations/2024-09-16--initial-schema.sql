@@ -6,7 +6,7 @@
 --precondition-sql-check expectedResult:0 SELECT count(*) FROM information_schema.tables WHERE table_catalog = 'ecommerce_users' AND table_schema = 'public' AND table_name='users';
 CREATE TABLE users
 (
-    id               VARCHAR(36)  NOT NULL UNIQUE,
+    id               BIGSERIAL    NOT NULL UNIQUE,
     email            VARCHAR(255) NOT NULL UNIQUE,
     password         VARCHAR(255) NOT NULL,
     full_name        VARCHAR(255) NOT NULL,

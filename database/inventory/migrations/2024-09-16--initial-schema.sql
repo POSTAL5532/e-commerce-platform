@@ -6,10 +6,10 @@
 --precondition-sql-check expectedResult:0 SELECT count(*) FROM information_schema.tables WHERE table_catalog = 'ecommerce_inventory' AND table_schema = 'public' AND table_name='inventory';
 CREATE TABLE inventory
 (
-    id            VARCHAR(36) NOT NULL UNIQUE,
-    item_id       VARCHAR(36) NOT NULL,
-    count         INTEGER     NOT NULL,
-    creation_date TIMESTAMP   NOT NULL,
+    id            BIGSERIAL NOT NULL UNIQUE,
+    item_id       BIGINT    NOT NULL,
+    count         INTEGER   NOT NULL,
+    creation_date TIMESTAMP NOT NULL,
     update_date   TIMESTAMP,
     PRIMARY KEY (id)
 );

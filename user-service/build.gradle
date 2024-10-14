@@ -1,3 +1,5 @@
+import groovy.sql.Sql
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.3'
@@ -82,6 +84,47 @@ tasks.register('migrateDatabase') {
 	}
 
 	finalizedBy(update)
+}
+
+tasks.register('addTestData') {
+	group = "database"
+	description = "Add test data to database"
+
+	configurations {
+		jdbc
+	}
+	dependencies {
+		jdbc 'org.postgresql:postgresql:42.7.3'
+	}
+
+	def dburl
+	def user
+	def password
+
+	doFirst {
+		def props = new Properties()
+		file("../database/users/localDatabase.properties").withInputStream { props.load(it) }
+		dburl = props.getProperty("url")
+		user = props.getProperty("username")
+		password = props.getProperty("password")
+	}
+
+	doLast {
+		def sqlClassLoader = Sql.classLoader
+		configurations.jdbc.each { sqlClassLoader.addURL it.toURI().toURL() }
+
+		def sqlScript = new File("../database/users/test_data.sql").text
+		def sqlCommands = sqlScript.split(';')
+
+		Sql.withInstance(dburl, user, password, 'org.postgresql.Driver') {
+			sql ->
+				sqlCommands.each { query ->
+					if (!query.trim().isEmpty()) {
+						sql.executeInsert(query.trim())
+					}
+				}
+		}
+	}
 }
 
 ext {
