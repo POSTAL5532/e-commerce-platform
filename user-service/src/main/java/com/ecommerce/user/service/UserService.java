@@ -24,8 +24,9 @@ public class UserService {
         });
     }
 
+    @Transactional
     public User createUser(User user) {
-        if (userRepository.existsByEmail(user.getEmail()) != null) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             log.error("User with email {} already exists", user.getEmail());
             throw new IllegalArgumentException("User already exists with email: " + user.getEmail());
         }

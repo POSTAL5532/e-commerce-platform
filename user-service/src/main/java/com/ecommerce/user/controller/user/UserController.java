@@ -1,7 +1,7 @@
 package com.ecommerce.user.controller.user;
 
-import com.ecommerce.user.controller.user.dto.UserCreateDTO;
-import com.ecommerce.user.controller.user.dto.UserUpdateDTO;
+import com.ecommerce.common.user.UserCreateDTO;
+import com.ecommerce.common.user.UserUpdateDTO;
 import com.ecommerce.user.model.User;
 import com.ecommerce.user.service.UserService;
 import java.util.List;
@@ -28,6 +28,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody UserCreateDTO userCreateDTO) {
+        log.info("Creating user: {}", userCreateDTO);
+
         User user = new User();
         user.setEmail(userCreateDTO.email());
         user.setPassword(userCreateDTO.password());
@@ -41,18 +43,21 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        log.info("Getting user by id: {}", id);
         User user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
+        log.info("Getting all users");
         List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO) {
+        log.info("Updating user: id={}, user={}", id, userUpdateDTO);
         User updatedUser = new User();
         updatedUser.setEmail(userUpdateDTO.email());
         updatedUser.setPassword(userUpdateDTO.password());
@@ -66,6 +71,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        log.info("Deleting user: id={}", id);
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

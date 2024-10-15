@@ -1,4 +1,4 @@
-package com.ecommerce.user.model;
+package com.ecommerce.order.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,27 +15,24 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "orders")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column(name = "item_id", nullable = false)
+    private Long itemId;
 
-    @Column(name = "full_name", nullable = false)
-    private String fullName;
+    @Column(nullable = false, length = 4)
+    private String currency;
 
-    @Column(name = "avatar_file_name")
-    private String avatarFileName;
-
-    @Column(name = "email_confirmed", nullable = false)
-    private boolean emailConfirmed;
+    @Column(nullable = false)
+    private double amount;
 
     @Column(name = "creation_date", nullable = false)
     @CreationTimestamp

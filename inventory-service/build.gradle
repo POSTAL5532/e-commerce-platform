@@ -75,7 +75,7 @@ tasks.register('migrateDatabase') {
 		liquibase {
 			activities {
 				main {
-					defaultsFile "../database/inventory/localDatabase.properties"
+					defaultsFile "database/localDatabase.properties"
 				}
 			}
 		}

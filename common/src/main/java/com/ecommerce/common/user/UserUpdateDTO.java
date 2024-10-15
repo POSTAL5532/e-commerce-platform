@@ -1,6 +1,6 @@
-package com.ecommerce.user.controller.user.dto;
+package com.ecommerce.common.user;
 
-public record UserCreateDTO(
+public record UserUpdateDTO(
     String email,
     String password,
     String fullName,
