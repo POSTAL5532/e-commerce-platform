@@ -79,6 +79,7 @@ tasks.register('migrateDatabase') {
 			activities {
 				main {
 					defaultsFile "${rootProject.projectDir}/user-service/database/localDatabase.properties"
+					changelogFile "${rootProject.projectDir}/user-service/database/migrations/changelog.xml"
 				}
 			}
 		}
