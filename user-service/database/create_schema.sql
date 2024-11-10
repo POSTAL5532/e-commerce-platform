@@ -1,9 +1,3 @@
---liquibase formatted sql
-
---changeset i.shcherbachenya:2024-10-09--initial-schema-00
---comment Create users table
---preconditions onFail:HALT onError:HALT
---precondition-sql-check expectedResult:0 SELECT count(*) FROM information_schema.tables WHERE table_catalog = 'ecommerce_users' AND table_schema = 'public' AND table_name='users';
 CREATE TABLE users
 (
     id               BIGSERIAL    NOT NULL UNIQUE,

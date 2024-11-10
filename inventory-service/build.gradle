@@ -1,8 +1,9 @@
+import groovy.sql.Sql
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.3'
 	id 'io.spring.dependency-management' version '1.1.6'
-	id 'org.liquibase.gradle' version '2.2.0'
 }
 
 group = 'com.ecommerce'
@@ -37,11 +38,6 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 
-	liquibaseRuntime 'org.liquibase:liquibase-core:4.24.0'
-	liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:2.1.1'
-	liquibaseRuntime 'info.picocli:picocli:4.7.5'
-	liquibaseRuntime 'org.postgresql:postgresql:42.7.3'
-
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen:6.1.5.Final'
 
@@ -67,21 +63,45 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-tasks.register('migrateDatabase') {
+tasks.register('createSchema') {
 	group = "database"
-	description = "Migrate catalog database by liquibase"
+	description = "Create inventory schema database"
 
-	doFirst {
-		liquibase {
-			activities {
-				main {
-					defaultsFile "${rootProject.projectDir}/inventory-service/database/localDatabase.properties"
-				}
-			}
-		}
+	configurations {
+		jdbc
+	}
+	dependencies {
+		jdbc 'org.postgresql:postgresql:42.7.3'
 	}
 
-	finalizedBy(update)
+	def dburl
+	def user
+	def password
+
+	doFirst {
+		def props = new Properties()
+		file("${rootProject.projectDir}/inventory-service/database/localDatabase.properties").withInputStream { props.load(it) }
+		dburl = props.getProperty("url")
+		user = props.getProperty("username")
+		password = props.getProperty("password")
+	}
+
+	doLast {
+		def sqlClassLoader = Sql.classLoader
+		configurations.jdbc.each { sqlClassLoader.addURL it.toURI().toURL() }
+
+		def sqlScript = new File("${rootProject.projectDir}/inventory-service/database/create_schema.sql").text
+		def sqlCommands = sqlScript.split(';')
+
+		Sql.withInstance(dburl, user, password, 'org.postgresql.Driver') {
+			sql ->
+				sqlCommands.each { query ->
+					if (!query.trim().isEmpty()) {
+						sql.executeInsert(query.trim())
+					}
+				}
+		}
+	}
 }
 
 ext {
