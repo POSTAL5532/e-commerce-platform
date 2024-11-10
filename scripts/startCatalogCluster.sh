@@ -7,5 +7,3 @@ for PORT in "${PORTS[@]}"; do
     $COMMAND --server.port=$PORT &
     echo "Ecommerce catalog service - Instance $PORT"
 done
-
-wait
